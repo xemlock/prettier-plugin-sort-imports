@@ -57,6 +57,27 @@ export const a = 1;
 
 `;
 
+exports[`import-specifiers-with-same-line-comments.ts - typescript-verify > import-specifiers-with-same-line-comments.ts 1`] = `
+import {
+  someValue1, // eslint-disable-line no-restricted-imports -- some comment
+  someValue2,
+} from "some-package";
+import {
+  b, // b comment
+  a, // a comment
+} from "other-package";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+import {
+    b, // b comment
+    a, // a comment
+} from "other-package";
+import {
+    someValue1, // eslint-disable-line no-restricted-imports -- some comment
+    someValue2,
+} from "some-package";
+
+`;
+
 exports[`imports-with-comments.ts - typescript-verify > imports-with-comments.ts 1`] = `
 // I am top level comment in this file.
 // I am second line of top level comment in this file.
@@ -308,6 +329,26 @@ import twoLevelRelativePath from "../../twoLevelRelativePath";
 function add(a: number, b: number) {
     return a + b;
 }
+
+`;
+
+exports[`imports-with-same-line-comments.ts - typescript-verify > imports-with-same-line-comments.ts 1`] = `
+import z from 'z'; // z comment
+import {A} from 'b'; // this is import
+import c from './c'; /* block */
+// leading for a
+import a from 'a';
+import y from 'y'; // last import
+const x = 1; // not an import
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// leading for a
+import a from "a";
+import { A } from "b"; // this is import
+import y from "y"; // last import
+import z from "z"; // z comment
+import c from "./c"; /* block */
+
+const x = 1; // not an import
 
 `;
 

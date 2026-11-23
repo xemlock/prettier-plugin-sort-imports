@@ -2,6 +2,8 @@ import { ParseResult } from '@babel/parser';
 import traverseModule, { NodePath } from '@babel/traverse';
 import { Directive, File, ImportDeclaration, Program } from '@babel/types';
 
+import { attachSameLineComments } from './attach-same-line-comments.js';
+
 const traverse = (traverseModule as any).default || traverseModule;
 
 export function extractASTNodes(ast: ParseResult<File>) {
@@ -30,5 +32,9 @@ export function extractASTNodes(ast: ParseResult<File>) {
             }
         },
     });
+
+    attachSameLineComments(importNodes);
+    importNodes.forEach((node) => attachSameLineComments(node.specifiers));
+
     return { importNodes, injectIdx };
 }

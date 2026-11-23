@@ -7,6 +7,8 @@ import { ImportOrLine } from '../types';
  * Takes the original nodes before sorting and the final nodes after sorting.
  * Adjusts the comments on the final nodes so that they match the comments as
  * they were in the original nodes.
+ * Trailing comments are kept, so the nodes must come from extractASTNodes or
+ * getImportNodes, which leave only same-line trailing comments.
  * @param nodes A list of nodes in the order as they were originally.
  * @param finalNodes The same set of nodes, but in the final sorting order.
  */
@@ -24,6 +26,11 @@ export const adjustCommentsOnSortedNodes = (
 
     // insert comments other than the first comments
     finalNodes.forEach((node, index) => {
+        addComments(
+            node,
+            'trailing',
+            finalNodesClone[index].trailingComments || [],
+        );
         if (isEqual(nodes[0].loc, node.loc)) return;
         // remove comments location to not confuse print AST
         firstNodesComments?.forEach((comment) => {

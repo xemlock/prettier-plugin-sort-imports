@@ -2,6 +2,8 @@ import { ParserOptions, parse as babelParser } from '@babel/parser';
 import traverse from '@babel/traverse';
 import { ImportDeclaration } from '@babel/types';
 
+import { attachSameLineComments } from './attach-same-line-comments.js';
+
 export const getImportNodes = (code: string, options?: ParserOptions) => {
     const importNodes: ImportDeclaration[] = [];
     const ast = babelParser(code, {
@@ -19,6 +21,9 @@ export const getImportNodes = (code: string, options?: ParserOptions) => {
             }
         },
     });
+
+    attachSameLineComments(importNodes);
+    importNodes.forEach((node) => attachSameLineComments(node.specifiers));
 
     return importNodes;
 };

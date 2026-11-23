@@ -21,7 +21,11 @@ export const getCodeFromAst = (
 ) => {
     const allCommentsFromImports = getAllCommentsFromNodes(nodes);
 
-    const nodesToRemoveFromCode = [...nodes, ...allCommentsFromImports];
+    const nodesToRemoveFromCode = [
+        ...nodes,
+        ...allCommentsFromImports,
+        ...nodes.flatMap((node) => node.trailingComments ?? []),
+    ];
 
     const newAST = file({
         type: 'Program',
